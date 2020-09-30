@@ -1,18 +1,30 @@
 import React from "react";
 
+import BasketActionTypes from "../../state/types/basket.types";
+import { useStateValue } from "../../state/providers/State.provider";
+
 import StarIcon from "@material-ui/icons/Star";
 
 import "./Product.styles.css";
 
-function Product({ title, image, price, rating, alt }) {
-	// function painRating(rating) {
-	//     let stars = [];
-	//     for (let r = 0; r < rating; r++) {
-	//         stars.push(<StarIcon fontSize="small" />);
-	//     }
+function Product({ id, title, image, price, rating }) {
+	const [_, dispatch] = useStateValue();
 
-	//     return stars
-	// }
+	// console.log('Basket state: ', basket);
+	// Add to basket
+	const addToBasket = () => {
+		// dispatch the item into the data layer (context)
+		dispatch({
+			type: BasketActionTypes.ADD_TO_BASKET,
+			payload: {
+				id: id,
+				title: title,
+				image: image,
+				price: price,
+				rating: rating
+			}
+		})
+	}
 
 	return (
 		<div className="product">
@@ -42,7 +54,7 @@ function Product({ title, image, price, rating, alt }) {
 
 			<img src={image} alt={title} />
 
-			<button>Add to Basket</button>
+			<button onClick={addToBasket}>Add to Basket</button>
 		</div>
 	);
 }
