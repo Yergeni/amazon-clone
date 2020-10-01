@@ -60,6 +60,7 @@ function Home() {
 						price={179.99}
 						image="https://images-na.ssl-images-amazon.com/images/I/61x0OuU9XtL._AC_SL1000_.jpg"
 						rating={4}
+						quantity={0}
 					/>
 				</div>
 			</div>
