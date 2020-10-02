@@ -1,10 +1,13 @@
 import BasketActionTypes from "../types/basket.types";
+import UserActionTypes from "../types/user.types";
+
 import { addItemToBasket, removeItemFromBasket } from "../utils/basket.utils";
 
 // Insital state of the application
 export const initialState = {
 	basket: [],
 	subTotal: 0,
+	user: null,
 };
 
 // Reducer of the application.
@@ -25,6 +28,11 @@ const reducer = (state, action) => {
 				...state,
 				basket: state.basket.filter((item) => item.id !== action.payload.id), // return all items in basket except the one on payload
 			};
+		case UserActionTypes.SET_CURRENT_USER:
+			return {
+				...state,
+				user: action.payload
+			}
 
 		default:
 			return state;

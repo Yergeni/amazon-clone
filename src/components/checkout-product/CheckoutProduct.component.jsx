@@ -11,7 +11,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import "./CheckoutProduct.styles.css";
 
 function CheckoutProduct({ id, title, image, price, rating, quantity }) {
-    const [{ basket }, dispatch] = useStateValue();
+    const [_, dispatch] = useStateValue();
 
 	// Add to basket
 	const addItemToBasket = () => {

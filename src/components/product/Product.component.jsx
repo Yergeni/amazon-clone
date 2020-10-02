@@ -8,7 +8,7 @@ import ProductRating from "../product-rating/ProductRating.component";
 import "./Product.styles.css";
 
 function Product({ id, title, image, price, rating }) {
-	const [{ basket }, dispatch] = useStateValue();
+	const [ _, dispatch] = useStateValue();
 
 	// Add to basket
 	const addToBasket = () => {

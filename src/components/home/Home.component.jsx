@@ -4,6 +4,7 @@ import Product from "../product/Product.component";
 import "./Home.styles.css";
 
 function Home() {
+	
 	return (
 		<div className="home">
 			<div className="home__container">
