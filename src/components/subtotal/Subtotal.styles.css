@@ -29,5 +29,18 @@
     color: #111;
     height: 30px;
     margin-top: 10px;
+    cursor: pointer;
+}
+
+.subtotal > button:disabled {
+    display: block;
+    width: 100%;
+    background: lightgray;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    color: #111;
+    height: 30px;
+    margin-top: 10px;
+    cursor: not-allowed;
 }
 

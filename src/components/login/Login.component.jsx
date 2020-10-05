@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { auth } from "../../firebase";
 
@@ -7,6 +7,7 @@ import "./Login.styles.css";
 
 function Login() {
 	const history = useHistory();
+	const location = useLocation();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -15,7 +16,7 @@ function Login() {
 
 		auth
 			.signInWithEmailAndPassword(email, password)
-			.then((authResponse) => history.push("/"))
+			.then((authResponse) => history.push(location.state.goto || "/")) // if the location state is set then, use the goto path
 			.catch((err) => console.error(err.message));
 	};
 

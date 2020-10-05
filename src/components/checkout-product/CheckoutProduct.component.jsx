@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useStateValue } from "../../state/providers/State.provider";
 import BasketActionTypes from "../../state/types/basket.types";
@@ -11,7 +11,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import "./CheckoutProduct.styles.css";
 
 function CheckoutProduct({ id, title, image, price, rating, quantity }) {
-    const [_, dispatch] = useStateValue();
+	const [, dispatch] = useStateValue();
 
 	// Add to basket
 	const addItemToBasket = () => {
@@ -23,35 +23,35 @@ function CheckoutProduct({ id, title, image, price, rating, quantity }) {
 				title: title,
 				image: image,
 				price: price,
-				rating: rating
-			}
-		})
-    }
-    
+				rating: rating,
+			},
+		});
+	};
+
 	// Add to basket
 	const removeItemFromBasket = () => {
 		// dispatch the item into the data layer (context)
 		dispatch({
 			type: BasketActionTypes.REMOVE_FROM_BASKET,
 			payload: {
-                id: id,
+				id: id,
 				title: title,
 				image: image,
 				price: price,
 				rating: rating,
-                quantity: quantity
-            }
-		})
-    }
-    
+				quantity: quantity,
+			},
+		});
+	};
+
 	// Add to basket
 	const clearItemFromBasket = () => {
 		// dispatch the item into the data layer (context)
 		dispatch({
 			type: BasketActionTypes.CLEAR_ITEM_FROM_BASKET,
-			payload: {id: id}
-		})
-	}
+			payload: { id: id },
+		});
+	};
 
 	return (
 		<div className="checkoutProduct">
@@ -72,11 +72,11 @@ function CheckoutProduct({ id, title, image, price, rating, quantity }) {
 						onClick={removeItemFromBasket}
 					/>
 					<p>{quantity}</p>
-					<ArrowForwardIosIcon 
-                        fontSize="small"
-                        style={{ cursor: 'pointer' }}
-                        onClick={addItemToBasket} 
-                    />
+					<ArrowForwardIosIcon
+						fontSize="small"
+						style={{ cursor: "pointer" }}
+						onClick={addItemToBasket}
+					/>
 				</div>
 				<button onClick={clearItemFromBasket}>Remove from Basket</button>
 			</div>

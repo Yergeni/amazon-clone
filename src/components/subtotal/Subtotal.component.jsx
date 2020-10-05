@@ -14,9 +14,11 @@ function Subtotal() {
 
 	const handleProceedToCheckout = () => {
 		if (!user) {
-			history.push('/login')
+			history.push('/login', {
+				goto: '/payment'
+			});
 		} else {
-			alert('TODO the checkout flow')
+			history.push('/payment');
 		}
 	}
 
@@ -42,7 +44,7 @@ function Subtotal() {
 				prefix="$"
 			/>
 
-			<button onClick={handleProceedToCheckout}>Proceed to Checkout</button>
+			<button onClick={handleProceedToCheckout} disabled={basket.length === 0}>Proceed to Checkout</button>
 		</div>
 	);
 }

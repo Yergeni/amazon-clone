@@ -8,7 +8,7 @@ import ProductRating from "../product-rating/ProductRating.component";
 import "./Product.styles.css";
 
 function Product({ id, title, image, price, rating }) {
-	const [ _, dispatch] = useStateValue();
+	const [, dispatch] = useStateValue();
 
 	// Add to basket
 	const addToBasket = () => {
@@ -20,26 +20,28 @@ function Product({ id, title, image, price, rating }) {
 				title: title,
 				image: image,
 				price: price,
-				rating: rating
-			}
-		})
-	}
+				rating: rating,
+			},
+		});
+	};
 
 	return (
-		<div className="product">
-			<div className="product__info">
-				<p>{title}</p>
-				<p className="product__price">
-					<small>$</small>
-					<strong>{price}</strong>
-				</p>
-				<ProductRating rating={rating} />
+		<>
+			<div className="product">
+				<div className="product__info">
+					<p>{title}</p>
+					<p className="product__price">
+						<small>$</small>
+						<strong>{price}</strong>
+					</p>
+					<ProductRating rating={rating} />
+				</div>
+
+				<img src={image} alt={title} />
+
+				<button onClick={addToBasket}>Add to Basket</button>
 			</div>
-
-			<img src={image} alt={title} />
-
-			<button onClick={addToBasket}>Add to Basket</button>
-		</div>
+		</>
 	);
 }
 

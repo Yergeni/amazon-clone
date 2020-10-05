@@ -28,6 +28,11 @@ const reducer = (state, action) => {
 				...state,
 				basket: state.basket.filter((item) => item.id !== action.payload.id), // return all items in basket except the one on payload
 			};
+		case BasketActionTypes.CLEAR_BASKET:
+			return {
+				...state,
+				basket: []
+			};
 		case UserActionTypes.SET_CURRENT_USER:
 			return {
 				...state,
