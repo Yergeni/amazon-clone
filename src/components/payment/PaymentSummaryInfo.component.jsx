@@ -1,7 +1,7 @@
 import React from "react";
 import CurrencyFormat from "react-currency-format";
 
-function OrderSummaryInfo({ title, passedValue }) {
+function PaymentSummaryInfo({ title, passedValue }) {
 	return (
 		<div>
 			<CurrencyFormat
@@ -28,4 +28,4 @@ function OrderSummaryInfo({ title, passedValue }) {
 	);
 }
 
-export default OrderSummaryInfo;
+export default PaymentSummaryInfo;

@@ -30,7 +30,7 @@ function App() {
 	useEffect(() => {
 		// Observer for listening to the user auth states every time the app
 		const unsusbscribe = auth.onAuthStateChanged((authUser) => {
-			console.log("This is the user >>> ", authUser);
+			// console.log("This is the user >>> ", authUser);
 
 			if (authUser) {
 				dispatch({ type: UserActionTypes.SET_CURRENT_USER, payload: authUser });
@@ -39,7 +39,7 @@ function App() {
 				dispatch({ type: UserActionTypes.SET_CURRENT_USER, payload: null });
 			}
 		});
-    // Unsusbscribe to the observer
+		// Unsusbscribe to the observer
 		return () => unsusbscribe();
 	}, [dispatch]);
 
@@ -70,13 +70,13 @@ function App() {
 					<Route exact path="/payment">
 						{/* Header */}
 						<Header />
-            {/* Loading stripe on the payment page */}
-            <Elements stripe={stripePromise}>
-						  <Payment />
-            </Elements>
+						{/* Loading stripe on the payment page */}
+						<Elements stripe={stripePromise}>
+							<Payment />
+						</Elements>
 					</Route>
 
-          {/* Orders */}
+					{/* Orders */}
 					<Route exact path="/orders">
 						{/* Header */}
 						<Header />

@@ -5,6 +5,9 @@ import { useStateValue } from "../../state/providers/State.provider";
 
 import ProductRating from "../product-rating/ProductRating.component";
 
+import { store } from 'react-notifications-component';
+import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
+
 import "./Product.styles.css";
 
 function Product({ id, title, image, price, rating }) {
@@ -22,6 +25,25 @@ function Product({ id, title, image, price, rating }) {
 				price: price,
 				rating: rating,
 			},
+		});
+
+		store.addNotification({
+			message: (
+				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+					<CheckCircleSharpIcon color="disabled" />
+					<h3>Item Added!</h3>
+				</div>
+			),
+			width: 180,
+			type: "success",
+			insert: "top",
+			container: "top-right",
+			// animationIn: ["animate__animated", "animate__fadeIn"],
+			// animationOut: ["animate__animated", "animate__fadeOut"],
+			dismiss: {
+			  duration: 3000,
+			  onScreen: true
+			}
 		});
 	};
 

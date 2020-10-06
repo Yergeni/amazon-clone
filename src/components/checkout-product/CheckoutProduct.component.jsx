@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useStateValue } from "../../state/providers/State.provider";
 import BasketActionTypes from "../../state/types/basket.types";
@@ -10,7 +10,7 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import "./CheckoutProduct.styles.css";
 
-function CheckoutProduct({ id, title, image, price, rating, quantity }) {
+function CheckoutProduct({ id, title, image, price, rating, quantity, hideBtn }) {
 	const [, dispatch] = useStateValue();
 
 	// Add to basket
@@ -65,20 +65,24 @@ function CheckoutProduct({ id, title, image, price, rating, quantity }) {
 				</p>
 
 				<ProductRating rating={rating} />
-				<div className="checkoutProduct__quantity">
-					<ArrowBackIosIcon
-						fontSize="small"
-						style={{ cursor: "pointer" }}
-						onClick={removeItemFromBasket}
-					/>
-					<p>{quantity}</p>
-					<ArrowForwardIosIcon
-						fontSize="small"
-						style={{ cursor: "pointer" }}
-						onClick={addItemToBasket}
-					/>
-				</div>
-				<button onClick={clearItemFromBasket}>Remove from Basket</button>
+				{quantity && (
+					<div className="checkoutProduct__quantity">
+						<ArrowBackIosIcon
+							fontSize="small"
+							style={{ cursor: "pointer" }}
+							onClick={removeItemFromBasket}
+						/>
+						<p>{quantity}</p>
+						<ArrowForwardIosIcon
+							fontSize="small"
+							style={{ cursor: "pointer" }}
+							onClick={addItemToBasket}
+						/>
+					</div>
+				)}
+				{!hideBtn && (
+					<button onClick={clearItemFromBasket}>Remove from Basket</button>
+				)}
 			</div>
 		</div>
 	);

@@ -3,6 +3,10 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
+// Notifications (https://www.npmjs.com/package/react-notifications-component)
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
+
 import "./index.css";
 
 // Context
@@ -12,6 +16,7 @@ import reducer, { initialState } from "./state/reducers/reducer";
 ReactDOM.render(
 	<React.StrictMode>
 		<StateProvider initialState={initialState} reducer={reducer}>
+			<ReactNotification />
 			<App />
 		</StateProvider>
 	</React.StrictMode>,

@@ -6,16 +6,16 @@ import BasketActionTypes from "../../state/types/basket.types";
 
 import CheckoutProduct from "../checkout-product/CheckoutProduct.component";
 import CurrencyFormat from "react-currency-format";
-import OrderSummaryInfo from "./OrderSummaryInfo.component";
+import PaymentSummaryInfo from "./PaymentSummaryInfo.component";
 
 import {
 	getBasketNumberOfItems,
 	getBasketTotalValue,
 } from "../../state/utils/basket.utils";
-import stripeCloudAxiosInstance from "../../stripe/stripe.ustils";
+import stripeCloudAxiosInstance from "../../stripe/stripe.utils";
 
 // Stripe hooks
-import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
+import { useElements, useStripe, CardElement} from "@stripe/react-stripe-js";
 // Firestore cloud DB
 import { firestore } from "../../firebase";
 
@@ -31,17 +31,14 @@ function Payment() {
 	const [{ basket, user }, dispatch] = useStateValue();
 	const [error, setError] = useState(null);
 	const [disabled, setDisabled] = useState(true);
-
 	// Pay Now button states
 	const [processing, setProcessing] = useState(false);
 	const [succeded, setSucceded] = useState(false);
-
 	// Order summaru values (TODO: make it on the context API state)
 	const deliverAndHandling = getBasketTotalValue(basket) * 0.02; //Simulated
 	const estimatedTaxes = getBasketTotalValue(basket) * 0.06; //Simulated
 	const total =
 		getBasketTotalValue(basket) + deliverAndHandling + estimatedTaxes;
-
 	// Stripe
 	const [clientSecret, setClientSecret] = useState(true);
 
@@ -57,7 +54,7 @@ function Payment() {
 					url: `/payments/create?total=${Math.trunc(total * 100)}`,
 				});
 
-				// The response should have the stripe secret from the cloud function (firebase)
+				// The response should have the stripe secret from the cloud function deployed from here to firebase
 				setClientSecret(response.data.clientSecret);
 			};
 
@@ -68,12 +65,14 @@ function Payment() {
 		}
 	}, [total, history, user]); // fire everytime the basket value changes
 
-	console.log("The secret is >>> ", clientSecret);
+	// Secret key from stripe function in firebase
+	// console.log("The secret is >>> ", clientSecret);
 
 	// Handle Payment Card Change
 	const handleCardChange = (event) => {
+		console.log(event.complete);
 		// listen for changes in the CartElement and display any errors as the customer types their card
-		setDisabled(event.empty); // enable the pay now button if the CardElement is filled
+		setDisabled(!event.complete); // enable the pay now button if the CardElement is filled completelly
 		setError(event.error ? event.error.message : "");
 	};
 
@@ -90,6 +89,11 @@ function Payment() {
 		// each type of element.
 		const cardElement = elements.getElement(CardElement);
 
+		if (error) {
+			alert(error);
+			return;
+		}
+
 		// Use your card Element with other Stripe.js APIs
 		await stripe
 			.confirmCardPayment(clientSecret, {
@@ -105,10 +109,10 @@ function Payment() {
 					.collection("orders")
 					.doc(paymentIntent.id)
 					.set({
-                        basket: basket,
-                        amout: paymentIntent.amount,
-                        created: paymentIntent.created,
-                    });
+						basket: basket,
+						amount: paymentIntent.amount,
+						created: paymentIntent.created,
+					});
 
 				// if payment was successfully confirmed by stripe
 				setSucceded(true);
@@ -122,7 +126,10 @@ function Payment() {
 			})
 			.catch((err) => {
 				// TODO: show notification. Use Material UI for it.
+				alert("Oops! Something went wrong processing your payment");
 				console.error("Stripe payment error >>> ", err);
+				setProcessing(false);
+				setError(err);
 			});
 	};
 
@@ -162,12 +169,30 @@ function Payment() {
 								<strong style={{ marginRight: "3px" }}>NOTE:</strong>Please use
 								card 4242 4242 4242 4242
 							</p>
-							{/* <form onSubmit={handleStripePayment}> */}
-							<CardElement onChange={handleCardChange} />
-							{/* <button type="submit">Pay Now</button> */}
-							{/* </form> */}
+							{/* https://stripe.com/docs/stripe-js/react#element-components */}
+							{/* <CardNumberElement />
+							<CardCvcElement />
+							<CardExpiryElement /> */}
+							<CardElement
+								options={{
+									style: {
+										base: {
+											fontSize: "16px",
+											color: "#424770",
+											"::placeholder": {
+												color: "#aab7c4",
+											},
+										},
+										invalid: {
+											color: "#9e2146",
+										},
+									},
+								}}
+								onChange={handleCardChange}
+							/>
 						</div>
 					</div>
+
 					{/* Payment Section - Review items */}
 					<div className="payment__itemsSection">
 						<h3>Review Items & Delivery</h3>
@@ -205,19 +230,19 @@ function Payment() {
 					<div className="payment__summarySection">
 						<h3>Order Summary</h3>
 						<div className="payment__orderSummary">
-							<OrderSummaryInfo
+							<PaymentSummaryInfo
 								title={`Subtotal (${getBasketNumberOfItems(basket)} items):`}
 								passedValue={getBasketTotalValue(basket)}
 							/>
-							<OrderSummaryInfo
+							<PaymentSummaryInfo
 								title="Delivery & handling"
 								passedValue={deliverAndHandling}
 							/>
-							<OrderSummaryInfo
+							<PaymentSummaryInfo
 								title="Total before taxes:"
 								passedValue={getBasketTotalValue(basket) + deliverAndHandling}
 							/>
-							<OrderSummaryInfo
+							<PaymentSummaryInfo
 								title="Estimated taxes:"
 								passedValue={estimatedTaxes}
 							/>

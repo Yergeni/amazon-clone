@@ -1,3 +1,7 @@
+// Commands to deploy
+// firebase deploy --only function // it deploys only the function
+
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 const functions = require("firebase-functions");
