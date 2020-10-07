@@ -8,6 +8,7 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 
 import "./index.css";
+import 'react-notifications-component/dist/theme.css'
 
 // Context
 import { StateProvider } from "./state/providers/State.provider";

@@ -10,7 +10,15 @@ import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 
 import "./CheckoutProduct.styles.css";
 
-function CheckoutProduct({ id, title, image, price, rating, quantity, hideBtn }) {
+function CheckoutProduct({
+	id,
+	title,
+	image,
+	price,
+	rating,
+	quantity,
+	hideBtn,
+}) {
 	const [, dispatch] = useStateValue();
 
 	// Add to basket
@@ -60,12 +68,15 @@ function CheckoutProduct({ id, title, image, price, rating, quantity, hideBtn })
 			<div className="checkoutProduct__info">
 				<p className="checkoutProduct__title">{title}</p>
 				<p className="checkoutProduct__price">
-					<small>$</small>
+					<strong>$</strong>
 					<strong>{price}</strong>
+					{/* <strong>{price}{quantity > 1 && ` x ${quantity}`}</strong> */}
 				</p>
-
+				<p style={{ marginBottom: "5px", fontWeight: "500" }}>
+					<small>{`Ordered Items: ${quantity}`}</small>
+				</p>
 				<ProductRating rating={rating} />
-				{quantity && (
+				{!hideBtn ? (
 					<div className="checkoutProduct__quantity">
 						<ArrowBackIosIcon
 							fontSize="small"
@@ -79,7 +90,7 @@ function CheckoutProduct({ id, title, image, price, rating, quantity, hideBtn })
 							onClick={addItemToBasket}
 						/>
 					</div>
-				)}
+				) : null}
 				{!hideBtn && (
 					<button onClick={clearItemFromBasket}>Remove from Basket</button>
 				)}

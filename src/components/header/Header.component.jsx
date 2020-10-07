@@ -26,7 +26,7 @@ function Header() {
 			<Link to="/">
 				<img
 					className="header__logo"
-					src="http://pngimg.com/uploads/amazon/amazon_PNG11.png"
+					src="https://pngimg.com/uploads/amazon/amazon_PNG11.png"
 					alt="Amazon Logo"
 				/>
 			</Link>
@@ -41,8 +41,7 @@ function Header() {
 			{/* Nav Bar */}
 			<div className="header__nav">
 				{/* Hello option */}
-				{/* Nice handle on link */}
-				<Link to={!user ? "/login" : "#"}>
+				<Link to="/login">
 					<div onClick={handleSignOut} className="header__option">
 						<span className="header__optionLineOne">
 							{user?.email || "Hello Guest"}
@@ -54,7 +53,7 @@ function Header() {
 				</Link>
 
 				{/* Orders */}
-				<Link to='/orders'>
+				<Link to="/orders">
 					<div className="header__option">
 						<span className="header__optionLineOne">Returns</span>
 						<span className="header__optionLineTwo">& Orders</span>

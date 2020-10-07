@@ -16,7 +16,7 @@ function Login() {
 
 		auth
 			.signInWithEmailAndPassword(email, password)
-			.then((authResponse) => history.push(location.state.goto || "/")) // if the location state is set then, use the goto path
+			.then((authResponse) => history.push(location.state ? location.state.goto : "/")) // if the location state is set then, use the goto path
 			.catch((err) => console.error(err.message));
 	};
 
